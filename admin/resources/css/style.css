@@ -1,0 +1,92 @@
+/* This is style Admin Style File */
+
+/* Global Style */
+body {
+	padding-top: 50px;
+	height: 1000px;
+}
+.col-sm-2 {
+	padding-left: 0;
+}
+
+
+
+/* Navbar Style */
+.navbar {
+	padding: 0;
+}
+.bg-dark {
+	background: #232527!important;
+}
+.navbar-light .navbar-brand,
+.navbar-light .navbar-nav .nav-link {
+	color: #fff;
+}
+ 
+
+ .nabvar-brand.dropdown-toggle::after {
+ 	content: none;
+ }
+ .dropdown-menu {
+ 	padding: 0;
+ 	background: #232527;
+ }
+ .dropdown-menu a {
+ 	color: #fff;
+ }
+ .dropdown-menu a:hover {
+ 	background: #232527;
+ 	color: #fff;
+ }
+ .brand-drop-down {
+ 	left: 135px;
+ }
+
+ /* Admin Sidebar Style */
+
+ .sidebar {
+ 	padding: 10px;
+ 	background: #232527;
+ 	position: fixed;
+ 	height: 100%;
+ 	width: 190px;
+ 	max-width: 190px;
+ }
+ .sidebar ul {
+ 	margin-top: 30px;
+ }
+ .sidebar ul li a {
+ 	border-radius: 3px;
+ 	text-decoration: none;
+ 	color: #fff;
+ 	border: 1px solid #383838;
+ 	width: 100%;
+ 	display: block;
+ 	padding: 10px;
+ 	margin-bottom: 5px;
+ 	transition: .3s ease-in-out;
+ }
+ .sidebar ul li i {
+ 	font-size: 15px;
+ }
+ .sidebar ul li a:hover {
+ 	color: #ffffff;
+ 	background: #484848;
+ }
+
+
+ /* Post Style */
+
+
+
+
+
+
+.error {
+	color: red;
+	margin-top: 5px;
+	margin-left: 10px;
+	font-size: 13px;
+	padding: 0;
+	display: none;
+}
