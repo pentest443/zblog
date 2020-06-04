@@ -5,15 +5,21 @@
 ?>
 
 <?php 
+
 	if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if(isset($_POST['addpost'])) {
-	}
-			$title = filter_input (INPUT_POST, 'title' , FILTER_SANITIZE_STRING);
-			$content = filter_input (INPUT_POST, 'content' , FILTER_SANITIZE_STRING);
-			$category = filter_input (INPUT_POST, 'category' , FILTER_SANITIZE_STRING);
-			$excerpt = filter_input (INPUT_POST, 'excerpt' , FILTER_SANITIZE_STRING);
-			$tags = filter_input (INPUT_POST, 'tags' , FILTER_SANITIZE_STRING);
-			
+	
+			$title = filter_input(INPUT_POST, 'title' , FILTER_SANITIZE_STRING);
+			$content = filter_input(INPUT_POST, 'content' , FILTER_SANITIZE_STRING);
+			$category = filter_input(INPUT_POST, 'category' , FILTER_SANITIZE_STRING);
+			$excerpt = filter_input(INPUT_POST, 'excerpt' , FILTER_SANITIZE_STRING);
+			$tags = filter_input(INPUT_POST, 'tags' , FILTER_SANITIZE_STRING);
+
+			$author = "Ebrahem"; // Temporary Author until creating admins
+
+			date_default_timezone_set("Asia/Riyadh");
+			$datetime = date('M-D-Y h:m', time());
+
 			$image = $_FILES['image'];
 
 			$img_name = $image['name'];
@@ -23,18 +29,17 @@
 
 			$error_msg = "";
 			if(strlen($title) < 100 || strlen($title) > 200) {
-				$error_msg = "Title must be between 100 and 200";
-			}
+				$error_msg = "Title must be between 100 and 200";			
 			}else if (strlen($content) < 500 || strlen($content) > 10000) {
 				$error_msg = "Content must be between 500 and 10000";
 			}else if(! empty($excerpt)){
-				if (strlen($excerpt) < 100 || strlen($content) > 500) {
+				if (strlen($excerpt) < 100 || strlen($excerpt) > 500) {
 				$error_msg = "Content must be between 100 and 500";
 			}
 		}else {
 
 			if(! empty($img_name)) {
-				$img_extension = strtolower(explode('.', $img_name)[1]);
+				$img_extension = strtolower(explode('.', $img_name)[1]); 
 
 				$allowed_extension = array('jpg' , 'png' , 'jpeg');
 
@@ -51,8 +56,18 @@
 		if(empty($error_msg)) {
 
 			// Insert Data in Database
+			if( insert_post($datetime, $title, $content, $author, $excerpt, $img_name, $category, $tags) ) {
+
+				echo "Success";
+
+			}
 
 		}
+
+
+
+	}
+}	
 
 
 ?>

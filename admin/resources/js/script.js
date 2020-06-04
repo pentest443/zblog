@@ -16,8 +16,7 @@ $(function() {
 			$(".post form p.title-error").fadeOut(500);	
 		}
 
-		if(content.length < 500 || title.length > 10000) {
-			$(".post form p.content-error").fadeIn(500);
+    			$(".post form p.content-error").fadeIn(500);
 			return false;
 		}else {
 			$(".post form p.content-error").fadeOut(500);	
