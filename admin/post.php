@@ -35,34 +35,39 @@
 			}else if(! empty($excerpt)){
 				if (strlen($excerpt) < 100 || strlen($excerpt) > 500) {
 				$error_msg = "Content must be between 100 and 500";
-			}
-		}else {
+				}
+			}else {
 
-			if(! empty($img_name)) {
-				$img_extension = strtolower(explode('.', $img_name)[1]); 
+				if(! empty($img_name)) {
+					$img_extension = strtolower(explode('.', $img_name)[1]); 
 
-				$allowed_extension = array('jpg' , 'png' , 'jpeg');
+					$allowed_extension = array('jpg' , 'png' , 'jpeg');
 
-				if(! in_array($img_extension, $allowed_extension)) {
-					$error_msg = "Allowed extension are jpg, png and jepg";
-				}else if( $img_size > 2000000) {
-					$error_msg = "Image size must be less than 1M";
+					if(! in_array($img_extension, $allowed_extension)) {
+						$error_msg = "Allowed extension are jpg, png and jepg";
+					}else if( $img_size > 2000000) {
+						$error_msg = "Image size must be less than 1M";
+					}
+
 				}
 
 			}
 
-		}
+			if(empty($error_msg)) {
 
-		if(empty($error_msg)) {
+				// Insert Data in Database
+				if( insert_post($datetime, $title, $content, $author, $excerpt, $img_name, $category, $tags) ) {
 
-			// Insert Data in Database
-			if( insert_post($datetime, $title, $content, $author, $excerpt, $img_name, $category, $tags) ) {
+					if(! empty($img_name)) {
+						$new_path = "uploads/posts/".$img_name;
+						move_uploaded_file( $img_tmp_name, $new_path);
+					}
+					echo "Success";
+				}
 
-				echo "Success";
-
+			} else {
+				echo $error_msg;
 			}
-
-		}
 
 
 
