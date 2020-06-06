@@ -56,26 +56,25 @@
 			      	?>		
 
 				 </td>
-
-			     <td>
-			     	<?php if(! empty($post['image'])) { ?>			      	
-			      	<img class="" alt="Post Banner" width="100" src="uploads/posts/<?php echo $post['image']; ?>">
-			      <?php } else {
-			      	echo "No Image";
-			      }
-			      ?>
+				  <td>
+					 <?php if(! empty($post['image'])) { ?>
+					 <img class="" alt="Post Banner" width="100" src="uploads/posts/<?php echo $post['image']; ?>">	
+					 <?php  } else {
+					  	echo "No Image";
+					}
+					?>
 			     </td>
 
 			     <td><?php echo $post['author']; ?></td>
 
 
-			     <td class="action-links">
-			     	<a class="btn btn-primary btn-sm" href="">Edit</a>
-			     	<form action="deletepost.php" method="POST">
-			     		<input type="hidden" name="id" value="<?php echo $post['id']; ?>">
-			     		<input class="btn btn-danger btn-sm" type="submit" value="Delete" name="deletepost">
-			     	</form>
-			     </td>
+			      <td class="action-links">
+					<a class="btn btn-primary btn-sm" href="post.php?id=<?php echo $post['id']; ?>">Edit</a>
+					<form onsubmit="return confirm('Are You Sure?');" action="deletepost.php" method="POST">
+						<input type="hidden" name="id" value="<?php echo $post['id']; ?>">
+						<input class="btn btn-danger btn-sm" type="submit" value="Delete" name="deletepost">
+					  </form>
+					 </td>
 
 
 			    </tr>

@@ -35,13 +35,27 @@ function insert_post($datetime, $title, $content, $author, $excerpt, $image, $ca
 		return false;
 	}
 }
-function get_posts() {
+function get_posts($id = "") {
 	include "connect.php";
-	$sql = "SELECT * FROM posts";
+	$sql = "";
+	if(empty($id)){
+		$sql = "SELECT * FROM posts";
+	}else {
+		$sql = "SELECT * FROM posts WHERE id = ?";
+	}
 	
 	try {
-		$result = $con->query($sql);
-		return $result;
+
+		if(! empty($id)){
+			$result = $con->prepare($sql);
+			$result->bindValue(1, $id, PDO::PARAM_INT);
+			$result->execute();
+
+			return $result->fetch(PDO::FETCH_ASSOC);
+		}else {
+			$result = $con->query($sql);
+			return $result;
+		}
 	}
 	catch(Exception $e) {
 		echo "Error: ".$e->getMessage();

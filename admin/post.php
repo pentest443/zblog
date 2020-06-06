@@ -5,6 +5,11 @@
 ?>
 
 <?php 
+		$title = "";
+		$content = "";
+		$category = "";
+		$excerpt = "";
+		$tags = "";
 
 	if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if(isset($_POST['addpost'])) {
@@ -64,19 +69,25 @@
 					}
 					echo "Success";
 				}
-
 			} else {
-				echo $error_msg;
+				echo "unable to insert";
 			}
-
-
-
 	}
-}	
+	}else if(isset($_GET['id'])){
+
+		$id = filter_input(INPUT_GET,'id',FILTER_SANITIZE_NUMBER_INT);
+
+		$post = get_posts($id);
+
+		$title = $post['title'];
+		$content = $post['content'];
+		$post_category_name = $post['category'];
+		$excerpt = $post['excerpt'];
+		$tags = $post['tags'];
+	}
 
 
 ?>
-
 
 <div class="container-fluid">
 	<div class="row">
@@ -88,18 +99,27 @@
 				<h3>Add New Post</h3>
 				<form action="post.php" method="POST" enctype="multipart/form-data">
 					<div class="form-group">
-						<input class="form-control" type="text" name="title" placeholder="Title" required autocomplete="off" >
+						<input value="<?php echo $title; ?>" class="form-control" type="text" name="title" placeholder="Title" required autocomplete="off" >
 						<p class="error title-error">Title must be between 100 and 200 characters</p>
 					</div>
 					<div class="form-group">
-						<textarea required placeholder="Content" autocomplete="off" rows="6" name="content" class="form-control" ></textarea>
+						<textarea required placeholder="Content" autocomplete="off" rows="6" name="content" class="form-control" ><?php echo $content; ?></textarea>
 						<p class="error content-error">Content must be between 500 and 10000 characters</p>
 					</div>
 					<div class="form-group">
 						<select class="form-control" name="category">
 							<?php 
 								foreach (get_categories() as $category) {
-									echo "<option>";
+									echo "<option value='{$category['name']}' ";
+									if(isset($_GET['id'])) {
+										if($post_category_name === $category['name']) {
+											echo "selected >";
+										}else {
+											echo ">";
+										}
+									}else {
+										echo ">";
+									}
 									echo $category['name'];
 									echo "</option>";
 								}
@@ -107,12 +127,18 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<input class="form-control" type="text" name="excerpt" autocomplete="off" placeholder="Excepert ( optional )">
+						<input value="<?php echo $excerpt; ?>" class="form-control" type="text" name="excerpt" autocomplete="off" placeholder="Excepert ( optional )">
 						<p class="error excerpt-error">Excerpt must be between 100 and 500 characters</p>
 					</div>
 					<div class="form-group">
-						<input class="form-control" type="text" name="tags" autocomplete="off" placeholder="Tags">
+						<input value="<?php echo $tags; ?>" class="form-control" type="text" name="tags" autocomplete="off" placeholder="Tags">
 					</div>
+
+					<?php if(! empty($post['image'])){ ?>
+						<label>Post Image: </label>
+						<img width="100" src="uploads/posts/<?php echo $post['image'];?>">
+					<?php } ?>
+
 					<div class="form-group">
 						<input type="file" name="image" class="form-control">
 					</div>
