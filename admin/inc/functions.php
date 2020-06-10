@@ -1,20 +1,32 @@
 <?php 
 
+
 /* Category function */
-function get_categories() {
+function get_categories($id = "") {
 	include "connect.php";
-	$sql = "SELECT * FROM categories";
-	
+	$sql = "";
+	if(empty($id)){
+		$sql = "SELECT * FROM categories";
+	}else {
+		$sql = "SELECT * FROM categories WHERE id = ? ";
+	}
+
 	try {
-		$result = $con->query($sql);
-		return $result;
+		if(empty($id)){
+			$result = $con->query($sql);
+			return $result;
+		}else {
+			$result = $con->prepare($sql);
+			$result->bindValue(1,$id,PDO::PARAM_INT);
+			$result->execute();
+			return $result->fetch(PDO::FETCH_ASSOC);
+		}
 	}
 	catch(Exception $e) {
 		echo "Error: ".$e->getMessage();
 		return array();
 	}
 }
-
 
 /* Post Functions */
 
@@ -24,22 +36,22 @@ function insert_post($datetime, $title, $content, $author, $excerpt, $image, $ca
 	$sql = "INSERT INTO posts (datetime, title, content, author, excerpt, image, category, tags) VALUES (?,?,?,?,?,?,?,?) ";	
 
 	try{
-		$result = $con->prepare($sql);
-
-		for($i = 1; $i <= 8; $i++){			
-			$result->bindValue($i, $fields[$i - 1], PDO::PARAM_STR);
+			$result = $con->prepare($sql);
+			for($i = 1; $i <= 8; $i++){
+				$result->bindValue($i, $fields[$i - 1], PDO::PARAM_STR);
+			}
+			return $result->execute();
+		}catch(Exception $e) {
+			echo "Error: ". $e->getMessage();
+			return false;
 		}
-		return $result->execute();
-	}catch(Exception $e) {
-		echo "Error: ". $e->getMessage();
-		return false;
 	}
-}
+
 function get_posts($id = "") {
 	include "connect.php";
 	$sql = "";
 	if(empty($id)){
-		$sql = "SELECT * FROM posts";
+		$sql = "SELECT * FROM posts ORDER BY datetime DESC";
 	}else {
 		$sql = "SELECT * FROM posts WHERE id = ?";
 	}
@@ -79,12 +91,38 @@ function delete($table, $id) {
 }
 
 
+function update_post($title, $content, $excerpt, $image = "", $category, $tags, $id) {
+	$fields = array($title, $content, $excerpt,$category, $tags);
+	include "connect.php";
+	$sql = "";
+	if(empty($image)){
+		$sql = "UPDATE posts SET title = ?, content = ?, excerpt = ?, category = ?, tags = ? WHERE id = ?";
+	}else {
+		$sql = "UPDATE posts SET title = ?, content = ?, excerpt = ?, category = ?, tags = ?, image = ? WHERE id = ?";
+	}
+	try {
 
+		$result = $con->prepare($sql);
+		for($i = 1; $i <= 5; $i++){
+			$result->bindValue($i, $fields[$i - 1], PDO::PARAM_STR);
+		}
+
+		if(! empty($image)) {
+			$result->bindValue(6, $image, PDO::PARAM_STR);
+			$result->bindValue(7,$id,PDO::PARAM_INT);
+		}else {
+			$result->bindValue(6,$id,PDO::PARAM_INT);
+		}
+		return $result->execute();
+	}catch(Exception $e) {
+		echo "Error: " .$e->getMessage();
+		return false;
+	}
+}
 
 
 function redirect($location) {
 	header("location: posts.php");
 	exit;
 }
-
 ?>

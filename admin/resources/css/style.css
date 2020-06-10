@@ -1,14 +1,20 @@
+
+/*This is system Admin File */
+
 /* This is style Admin Style File */
 
 /* Global Style */
+
 body {
 	padding-top: 40px;
 }
 .col-sm-2 {
 	padding-left: 0;
 }
-
-
+.posts .alert {
+	margin-top: 10px;
+	display: inline-block;
+}
 
 /* Navbar Style */
 .navbar {
@@ -88,6 +94,15 @@ body {
 
 .posts div table tbody td.title {
 	min-width: 200px; 
+}
+.posts h4,
+.post h4 {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.post from input[name='updatepost'],
+.post from input[name='addpost'] {
+	margin-bottom: 20px;
 }
 
 .error {
