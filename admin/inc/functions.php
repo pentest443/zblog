@@ -24,10 +24,12 @@ function get_categories($id = "") {
 		return array();
 	}
 }
+
 function insert_category($datetime,$name,$creater_name) {
 	$fields = array($datetime, $name, $creater_name);
 	include "connect.php";
 	$sql = "INSERT INTO categories (datetime, name, creater_name) VALUES (?,?,?)";
+	
 	try{
 		$result = $con->prepare($sql);
 		for($i = 1; $i <= 3; $i++){
@@ -36,7 +38,6 @@ function insert_category($datetime,$name,$creater_name) {
 		return $result->execute();
 	}catch(Exception $e) {
 		echo "Error: ". $e->getMessage();
-
 		return false;
 	}
 }
