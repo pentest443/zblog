@@ -7,21 +7,16 @@
 
 <?php 
 	$name = "";
-		
 	if($_SERVER['REQUEST_METHOD'] === 'POST') {
-
 		if(isset($_POST['addcategory'])){
-
 			$name = filter_input(INPUT_POST,'name',FILTER_SANITIZE_STRING);
 			date_default_timezone_set("Africa/Cairo");
 			$datetime = date('M-d-Y h:m', time());
 			$creater_name = "Ebrahem"; // temporary name until creating admins
-
 			$error_msg = "";
 			if( strlen($name) < 5 || strlen($name) > 50) {
 				$error_msg = "Category Name must be between 5 and 50 character";
 			}
-
 			if(empty($error_msg)) {
 				if (! session_id()){
 					session_start();
@@ -40,19 +35,14 @@
 				$_SESSION['error'] = $error_msg;
 				redirect("categories.php");	
 			}	
-
 		} else {
-
 			if(isset($_POST['updatecategory'])) {
-
 				$id = filter_input(INPUT_POST,'id',FILTER_SANITIZE_NUMBER_INT);
 				$name = filter_input(INPUT_POST,'name',FILTER_SANITIZE_STRING);
-
 				$error_msg = "";
 				if( strlen($name) < 5 || strlen($name) > 50) {
 					$error_msg = "Category Name must be between 5 and 50 character";
 				}
-
 				if(empty($error_msg)) {
 					if (! session_id()){
 						session_start();
@@ -94,7 +84,6 @@
 			<?php include "inc/sidebar.php"; ?>
 		</div>
 		<div class="col-sm">
-			
 			<div class="categories">
 				<?php 
 					if( ! session_id() ) {
@@ -113,7 +102,6 @@
 						$_SESSION['error'] = "";
 					}
 				?>
-
 				<h4>Categories</h4>
 				<form action="categories.php" method="POST">
 					<div class="row">
@@ -156,7 +144,6 @@
 					      	<?php 
 					      		echo $category['name'];
 					      	?>
-					      	
 					      </td>
 					      <td>
 					      	<?php 
