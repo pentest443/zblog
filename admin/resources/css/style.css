@@ -11,7 +11,8 @@ body {
 .col-sm-2 {
 	padding-left: 0;
 }
-.posts .alert {
+.posts .alert,
+.categories .alert {
 	margin-top: 10px;
 	display: inline-block;
 }
@@ -84,11 +85,13 @@ body {
 
 
 
-.posts div table tbody td.action-links {
+.posts div table tbody td.action-links,
+.categories div table tbody td.action-links, {
 	width: 130px;
 }
 
-.posts div table tbody td form {
+.posts div table tbody td form,
+.categories div table tbody td form, {
 	display: inline;
 }
 
@@ -96,12 +99,14 @@ body {
 	min-width: 200px; 
 }
 .posts h4,
-.post h4 {
+.post h4,
+.categories h4 {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
 .post from input[name='updatepost'],
-.post from input[name='addpost'] {
+.post from input[name='addpost'],
+.categories from input[name="addcategories"] {
 	margin-bottom: 20px;
 }
 
