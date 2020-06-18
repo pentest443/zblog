@@ -151,7 +151,6 @@ function update_post($title, $content, $excerpt, $image = "", $category, $tags, 
 	}
 }
 
-
 // insert dmin
 function insert_admin($datetime, $username, $email, $password, $roletype, $created_by, $img_name) {
 	$fields = array($datetime, $username, $email, $password, $roletype, $created_by, $img_name);
@@ -169,7 +168,6 @@ function insert_admin($datetime, $username, $email, $password, $roletype, $creat
 		return false;
 	}
 }
-
 // Get admin 
 function get_admins($id = "") {
 	include "connect.php";
@@ -198,10 +196,38 @@ function get_admins($id = "") {
 	}
 }
 
+function update_admin($username,$roletype,$img_name, $id) {
+
+	$fields = array($username,$roletype,$img_name);
+	include "connect.php";
+	$sql = "";
+	if(empty($img_name)){
+		$sql = "UPDATE admins SET username = ?, role_type = ? WHERE id = ?";
+	}else {
+		$sql = "UPDATE admins SET username = ?, role_type = ?, image = ? WHERE id = ?";
+	}
+	try {
+
+		$result = $con->prepare($sql);
+		for($i = 1; $i <= 2; $i++){
+			$result->bindValue($i, $fields[$i - 1], PDO::PARAM_STR);
+		}
+
+		if(! empty($img_name)) {
+			$result->bindValue(3, $img_name, PDO::PARAM_INT);
+			$result->bindValue(4,$id,PDO::PARAM_INT);
+		}else {
+			$result->bindValue(3,$id,PDO::PARAM_INT);			
+		}
+		return $result->execute();
+	}catch(Exception $e) {
+		echo "Error: " .$e->getMessage();
+		return false;
+	}
+}
 
 function redirect($location) {
 	header("Location: $location");
 	exit;
 }
-
 ?>

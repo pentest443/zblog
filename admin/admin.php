@@ -4,9 +4,6 @@
 	include "inc/functions.php";
 	include "inc/navbar.php";
 ?>
-
-<?php $admins = "active"; ?>
-
 <?php 	
 		$id = "";
 		$username = "";
@@ -98,7 +95,6 @@
 			$img_tmp_name = $image['tmp_name'];
 			$img_size = $image['size'];
 
-
 			$error_msg = "";
 			if(strlen($username) < 5 || strlen($username) > 30) {
 				$error_msg = "Username must be between 5 and 30 Characters";
@@ -124,7 +120,7 @@
 					session_start();
 				}
 				// Insert Data in Database
-				if( update_admin($username, $roletype, $img_name, $id) ) {
+				if( update_admin($username,$roletype,$img_name, $id) ) {
 					if(! empty($img_name)) {
 						$new_path = "uploads/admins/".$img_name;
 						move_uploaded_file( $img_tmp_name, $new_path);
@@ -183,11 +179,32 @@
 					</div>
 					<div class="form-group">
 						<select class="form-control" name="roletype">
-							<option value="Admin" >Admin</option>
-							<option value="Subscriber" >Subscriber</option>
+
+							<?php if(isset($_GET['id'])) { ?>
+							<?php foreach ($roletypes as $role) { ?>
+								<option value="<?php echo $role ?>" <?php if($role === $roletype) {echo "selected >";}
+									else {
+									echo ">";
+								} ?>
+
+									<?php echo $role ?></option>
+							<?php } 
+								}else { ?>
+									<option value="Admin" >Admin</option>
+									<option value="Subscriber" >Subscriber</option>
+								<?php }
+							 ?>							
 						</select>
 					</div>
+					<?php 
+						if(isset($_GET['id'])){
 
+							if(! empty($image)){ ?>
+								<label style="margin-left: 5px">Admin Photo: <img width="100" src="uploads/admins/<?php echo $image; ?>" ></label>
+						<?php }
+
+						}
+					?>
 					<?php if(! empty($post['image'])){ ?>
 						<label>Post Image: </label>
 						<img width="100" src="uploads/posts/<?php echo $post['image'];?>">

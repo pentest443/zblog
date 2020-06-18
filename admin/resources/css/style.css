@@ -117,6 +117,18 @@ body {
 	margin-bottom: 20px;
 }
 
+
+
+
+
+
+
+/* Admin style */
+
+.admins table tbody td img {
+	border-radius: 50%;
+}
+
 .error {
 	color: red;
 	margin-top: 5px;
