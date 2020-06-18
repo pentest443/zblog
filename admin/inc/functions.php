@@ -214,15 +214,95 @@ function update_admin($username,$roletype,$img_name, $id) {
 		}
 
 		if(! empty($img_name)) {
-			$result->bindValue(3, $img_name, PDO::PARAM_INT);
+			$result->bindValue(3, $img_name, PDO::PARAM_STR);
 			$result->bindValue(4,$id,PDO::PARAM_INT);
 		}else {
-			$result->bindValue(3,$id,PDO::PARAM_INT);			
+			$result->bindValue(3,$id,PDO::PARAM_INT);
 		}
 		return $result->execute();
 	}catch(Exception $e) {
 		echo "Error: " .$e->getMessage();
 		return false;
+	}
+
+}
+
+
+function is_admin($email) {
+
+	include "connect.php";
+	$sql = "SELECT * FROM admins WHERE email = ? ";
+	try {
+
+		$result = $con->prepare($sql);
+		$result->bindValue(1, $email, PDO::PARAM_STR);
+		$result->execute();
+		return $result->fetch(PDO::FETCH_ASSOC);
+	}
+	catch(Exception $e) {
+		echo "Error: ". $e->getMessage();
+		return false;
+	}
+}
+
+function update_reset_password_code($email) {
+
+	include "connect.php";
+	$newcode = rand(10000, 99999);
+	$sql = "UPDATE admins SET reset_password_code = $newcode WHERE email = ? ";
+	try {
+		$result = $con->prepare($sql);
+		$result->bindValue(1, $email, PDO::PARAM_STR);
+		return $result->execute();
+	}catch(Exception $e) {
+		echo "Error: " .$e->getMessage();
+		return false;
+	}
+
+}
+
+function update_user_password($hashed_password, $email) {
+
+	include "connect.php";
+	$sql = "UPDATE users SET password = ? WHERE email = ? ";
+	try{
+
+		$result = $con->prepare($sql);
+		$result->bindValue(1,$hashed_password,PDO::PARAM_STR);
+		$result->bindValue(2,$email,PDO::PARAM_STR);
+		return $result->execute();
+	}catch(Exception $e){
+		echo "Error: ". $e->getMessage();
+		return false;
+	}
+
+}
+
+// User Function
+
+function get_users($id = "") {
+	include "connect.php";
+	$sql = "";
+	if(empty($id)){
+		$sql = "SELECT * FROM users ORDER BY id DESC";
+	}else {
+		$sql = "SELECT * FROM users WHERE id = ? ";
+	}
+	try {
+
+		if(! empty($id)) {
+			$result = $con->prepare($sql);
+			$result->bindValue(1, $id, PDO::PARAM_INT);
+			$result->execute();
+			return $result->fetch(PDO::FETCH_ASSOC);
+		}else {
+			$result = $con->query($sql);
+			return $result;
+		}
+	}
+	catch(Exception $e) {
+		echo "Error: ".$e->getMessage();
+		return array();
 	}
 }
 

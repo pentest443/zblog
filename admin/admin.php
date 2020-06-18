@@ -58,6 +58,7 @@
 				}
 				// Insert Data in Database
 				if( insert_admin($datetime, $username, $email,$password,$roletype, $created_by, $img_name) ) {
+
 					
 					// send password to admin
 					if (password_verify('11111111', $password)) {

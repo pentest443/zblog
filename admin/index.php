@@ -1,5 +1,6 @@
-<?php include "inc/header.php";  ?>
 
+<?php $page_title = "Dashboard";  ?>
+<?php include "inc/header.php";  ?>
 <?php include "inc/navbar.php";  ?>
 
 <div class="container-fluid">
