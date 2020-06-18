@@ -12,7 +12,8 @@ body {
 	padding-left: 0;
 }
 .posts .alert,
-.categories .alert {
+.categories .alert
+.admins .alert {
 	margin-top: 10px;
 	display: inline-block;
 }
@@ -85,22 +86,28 @@ body {
 
 
 
+
 .posts div table tbody td.action-links,
-.categories div table tbody td.action-links, {
+.categories div table tbody td.action-links, 
+.admins div table tbody td.action-links{
 	width: 130px;
 }
 
 .posts div table tbody td form,
-.categories div table tbody td form, {
+.categories div table tbody td form,
+.admins div table tbody td form {
 	display: inline;
 }
 
 .posts div table tbody td.title {
 	min-width: 200px; 
 }
+
 .posts h4,
 .post h4,
-.categories h4 {
+.categories h4,
+.admin h4,
+.admins h4{
 	margin-top: 20px;
 	margin-bottom: 20px;
 }

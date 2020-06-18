@@ -1,28 +1,32 @@
-<?php
+<?php 
+	$page_title = "New Admin | ZBlog";
 	include "inc/header.php";
 	include "inc/functions.php";
 	include "inc/navbar.php";
 ?>
 
-<?php 	$id = "";
+<?php $admins = "active"; ?>
+
+<?php 	
+		$id = "";
 		$username = "";
 		$email = "";
 		$excerpt = "";
 		$tags = "";
 
 	if($_SERVER['REQUEST_METHOD'] === 'POST') {
-		if(isset($_POST['addpost'])) {
+		if(isset($_POST['addadmin'])) {
 
-			$title = filter_input(INPUT_POST,'title' , FILTER_SANITIZE_STRING);
-			$content = filter_input(INPUT_POST,'content' , FILTER_SANITIZE_STRING);
-			$category = filter_input(INPUT_POST,'category' , FILTER_SANITIZE_STRING);
-			$excerpt = filter_input(INPUT_POST,'excerpt' , FILTER_SANITIZE_STRING);
-			$tags = filter_input(INPUT_POST,'tags' , FILTER_SANITIZE_STRING);
+			$username = filter_input(INPUT_POST,'username' , FILTER_SANITIZE_STRING);
+			$email = filter_input(INPUT_POST,'email' , FILTER_SANITIZE_STRING);
+			$roletype = filter_input(INPUT_POST,'roletype' , FILTER_SANITIZE_STRING);
 
-			$author = "Ebrahem"; // Temporary Author until creating admins
+			$created_by = "Ebrahem"; // Temporary Author until creating admins
 
 			date_default_timezone_set("Africa/Cairo");
 			$datetime = date('M-d-Y h:m', time());
+
+			$password = password_hash('11111111',PASSWORD_DEFAULT);
 
 			$image = $_FILES['image'];
 
@@ -32,14 +36,10 @@
 
 
 			$error_msg = "";
-			if(strlen($title) < 30 || strlen($title) > 200) {
-				$error_msg = "Title must be between 30 and 200";
-			}else if(strlen($content) < 500 || strlen($content) > 10000) {
-				$error_msg = "Content must be between 500 and 10000";
-			}else if(! empty($excerpt)){
-				if(strlen($excerpt) < 50 || strlen($excerpt) > 500) {
-					$error_msg = "Excerpt must be between 50 and 500";
-				}
+			if(strlen($username) < 5 || strlen($username) > 30) {
+				$error_msg = "Username must be between 5 and 30 Characters";
+			}else if(strlen($email) < 10 || strlen($email) > 100) {
+				$error_msg = "Email must be between 10 and 100 Characters";
 			}else {
 
 				if(! empty($img_name)) { 
@@ -60,29 +60,38 @@
 					session_start();
 				}
 				// Insert Data in Database
-				if( insert_post($datetime, $title, $content, $author, $excerpt, $img_name, $category, $tags) ) {
+				if( insert_admin($datetime, $username, $email,$password,$roletype, $created_by, $img_name) ) {
+					
+					// send password to admin
+					if (password_verify('11111111', $password)) {
+						$send_password = "11111111";
+						$subject = "Recieve Your Password";
+
+						$message = "You have been added in ZBlog Website as Admin, Congrats Your password is $send_password , You can change it in your admin panel";
+
+						mail($email, $subject, $message);
+					}
 					if(! empty($img_name)) {
-						$new_path = "uploads/posts/".$img_name;
+						$new_path = "uploads/admins/".$img_name;
 						move_uploaded_file( $img_tmp_name, $new_path);
 					}
-					$_SESSION['success'] = "Post has been Added Successfully";
-					redirect("posts.php");
+					$_SESSION['success'] = "Admin has been Added Successfully";
+					redirect("admins.php");
 				}else {
-					$_SESSION['error'] = "Unable to Add Post";
-					redirect("posts.php");
+					$_SESSION['error'] = "Unable to Add Admin";
+					redirect("admins.php");
 				}
 			}
 		}else {
 
-			if(isset($_POST['updatepost'])){
+			if(isset($_POST['updateadmin'])){
 
 			$id = filter_input(INPUT_POST,'id' , FILTER_SANITIZE_NUMBER_INT);
 
-			$title = filter_input(INPUT_POST,'title' , FILTER_SANITIZE_STRING);
-			$content = filter_input(INPUT_POST,'content' , FILTER_SANITIZE_STRING);
-			$category = filter_input(INPUT_POST,'category' , FILTER_SANITIZE_STRING);
-			$excerpt = filter_input(INPUT_POST,'excerpt' , FILTER_SANITIZE_STRING);
-			$tags = filter_input(INPUT_POST,'tags' , FILTER_SANITIZE_STRING);
+			$username = filter_input(INPUT_POST,'username' , FILTER_SANITIZE_STRING);
+			$email = filter_input(INPUT_POST,'email' , FILTER_SANITIZE_STRING);
+			$roletype = filter_input(INPUT_POST,'roletype' , FILTER_SANITIZE_STRING);
+
 			$image = $_FILES['image'];
 
 			$img_name = $image['name'];
@@ -91,14 +100,10 @@
 
 
 			$error_msg = "";
-			if(strlen($title) < 30 || strlen($title) > 200) {
-				$error_msg = "Title must be between 30 and 200";
-			}else if(strlen($content) < 500 || strlen($content) > 10000) {
-				$error_msg = "Content must be between 500 and 10000";
-			}else if(! empty($excerpt)){
-				if(strlen($excerpt) < 50 || strlen($excerpt) > 500) {
-					$error_msg = "Excerpt must be between 50 and 500";
-				}
+			if(strlen($username) < 5 || strlen($username) > 30) {
+				$error_msg = "Username must be between 5 and 30 Characters";
+			}else if(strlen($email) < 10 || strlen($email) > 100) {
+				$error_msg = "Email must be between 10 and 100 Characters";
 			}else {
 
 				if(! empty($img_name)) { 
@@ -115,45 +120,40 @@
 			}
 
 			if(empty($error_msg)) {
-				$updated = "";
-
-				if(empty($image)) {
-					$updated = update_post($title, $content, $excerpt,$category, $tags, $id);
-				}else {
-					$updated = update_post($title, $content, $excerpt,$img_name, $category, $tags, $id);
+				if (! session_id()){
+					session_start();
 				}
-				if($updated) {
-
-					if(! session_id()){
-						session_start();
-					}
+				// Insert Data in Database
+				if( update_admin($username, $roletype, $img_name, $id) ) {
 					if(! empty($img_name)) {
-						$new_path = "uploads/posts/".$img_name;
+						$new_path = "uploads/admins/".$img_name;
 						move_uploaded_file( $img_tmp_name, $new_path);
 					}
-					$_SESSION['success'] = "Post has been Updated Successfully";
-					redirect("posts.php");
+					$_SESSION['success'] = "Admin has been Updated Successfully";
+					redirect("admins.php");
 				}else {
-					$_SESSION['error'] = "Unable to Update Post";
-					redirect("posts.php");
+					$_SESSION['error'] = "Unable to Update Admin";
+					redirect("admins.php");
 				}
 			}
-			}
 		}
+	}
 
 
 	}else if(isset($_GET['id'])){
 
 		$id = filter_input(INPUT_GET,'id',FILTER_SANITIZE_NUMBER_INT);
 
-		$post = get_posts($id);
+		$admin = get_admins($id);
 
-		$title = $post['title'];
-		$content = $post['content'];
-		$post_category_name = $post['category'];
-		$excerpt = $post['excerpt'];
-		$tags = $post['tags'];
+		$username = $admin['username'];
+		$email = $admin['email'];
+		$roletype = $admin['role_type'];
+		$image = $admin['image'];
+
+		$roletypes = array("Admin", "Subscriber");
 	}
+
 
 ?>
 
@@ -165,13 +165,13 @@
 			<?php include "inc/sidebar.php"; ?>
 		</div>
 		<div class="col-sm">
-			<div class="post">
+			<div class="admin">
 				<?php if(isset($_GET['id'])) { ?>
 				<h4>Edit Admin</h4>
 			<?php }else {
 				echo "<h4>Add New Admin</h4>";
 			} ?>
-				<form action="post.php" method="POST" enctype="multipart/form-data">
+				<form action="admin.php" method="POST" enctype="multipart/form-data">
 					<div class="form-group">
 						<input type="hidden" name="id" value="<?php echo $id; ?>">
 						<input value="<?php echo $username; ?>" class="form-control" type="text" name="username" placeholder="Username" required autocomplete="off" >
@@ -183,8 +183,8 @@
 					</div>
 					<div class="form-group">
 						<select class="form-control" name="roletype">
-						<option value="Admin">Admin</option>
-						<option value="Subscriber">Subscriber</option>
+							<option value="Admin" >Admin</option>
+							<option value="Subscriber" >Subscriber</option>
 						</select>
 					</div>
 
