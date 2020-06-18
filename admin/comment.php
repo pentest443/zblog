@@ -1,16 +1,17 @@
-<?php $page_title = "Posts";
+<?php $page_title = "Comments";
 	include "inc/header.php";
 	include "inc/functions.php";
 	include "inc/navbar.php";
 ?>
-<?php $posts = "active"; ?>
 
 <?php 	$id = "";
-		$title = "";
+		if(! session_id()) {
+			session_start();
+		}
+		$username = $_SESSION['admin_username'];
+		$email = $_SESSION['admin_email'];
 		$content = "";
-		$excerpt = "";
-		$tags = "";
-
+	
 	if($_SERVER['REQUEST_METHOD'] === 'POST') {
 		if(isset($_POST['addpost'])) {
 
@@ -162,67 +163,52 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<?php include "inc/media_sidebar.php"; ?>
 		<div class="col-sm-2">
 			<?php include "inc/sidebar.php"; ?>
 		</div>
 		<div class="col-sm">
 			<div class="post">
 				<?php if(isset($_GET['id'])) { ?>
-				<h4>Edit Post</h4>
+				<h4>Edit Comment</h4>
 			<?php }else {
-				echo "<h4>Add New Post</h4>";
+				echo "<h4>Add New Comment</h4>";
 			} ?>
-				<form action="post.php" method="POST" enctype="multipart/form-data">
+				<form action="comment.php" method="POST">
 					<div class="form-group">
 						<input type="hidden" name="id" value="<?php echo $id; ?>">
-						<input value="<?php echo $title; ?>" class="form-control" type="text" name="title" placeholder="Title" required autocomplete="off" >
-						<p class="error title-error">Title must be between 100 and 200 characters</p>
+						<input readonly value="<?php echo $username; ?>" class="form-control" type="text" name="title">
 					</div>
 					<div class="form-group">
-						<textarea required placeholder="Content" autocomplete="off" rows="6" name="content" class="form-control" ><?php echo $content; ?></textarea>
-						<p class="error content-error">Content must be between 500 and 10000 characters</p>
+						<input readonly value="<?php echo $email; ?>" class="form-control" type="email" name="email">
+					</div>
+					<div class="form-group">
+						<textarea required placeholder="Comment" autocomplete="off" rows="6" name="comment" class="form-control" ><?php echo $comment; ?></textarea>
+						<p class="error content-error">Comment must be between 20 and 1000 characters</p>
 					</div>
 					<div class="form-group">
 						<select class="form-control" name="category">
 							<?php 
-								foreach (get_categories() as $category) {
-									echo "<option value='{$category['name']}' ";
-									if(isset($_GET['id'])) {
+								foreach (get_posts() as $post) {
+									echo "<option value='{$post['id']}' ";
+								/*	if(isset($_GET['id'])) {
 										if($post_category_name === $category['name']) {
 											echo "selected >";
 										}else {
 											echo ">";
 										}
-									}else {
+									} else { */
 										echo ">";
-									}
-									echo $category['name'];
+									//}
+									echo $post['title'];
 									echo "</option>";
 								}
 							?>
 						</select>
 					</div>
-					<div class="form-group">
-						<input value="<?php echo $excerpt; ?>" class="form-control" type="text" name="excerpt" autocomplete="off" placeholder="Excerpt ( Optional )">
-						<p class="error excerpt-error">Excerpt must be between 100 and 500 characters</p>
-					</div>
-					<div class="form-group">
-						<input value="<?php echo $tags; ?>" class="form-control" type="text" name="tags" autocomplete="off" placeholder="Tags">
-					</div>
-
-					<?php if(! empty($post['image'])){ ?>
-						<label>Post Image: </label>
-						<img width="100" src="uploads/posts/<?php echo $post['image'];?>">
-					<?php } ?>
-
-					<div class="form-group">
-						<input type="file" name="image" class="form-control">
-					</div>
 					<?php if(isset($_GET['id'])) { ?>
-						<input value="Update Post" type="submit" name="updatepost" class="btn btn-primary" style="float: right;">
+						<input value="Update Comment" type="submit" name="updatecomment" class="btn btn-primary" style="float: right;">
 					<?php }else { ?>
-					<input value="Add Post" type="submit" name="addpost" class="btn btn-primary" style="float: right;">
+					<input value="Add Comment" type="submit" name="addcomment" class="btn btn-primary" style="float: right;">
 					<?php } ?>
 				</form>
 			</div>
