@@ -232,14 +232,16 @@ h6 {
 
 .posts div table tbody td.action-links,
 .categories div table tbody td.action-links, 
-.admins div table tbody td.action-links{
+.admins div table tbody td.action-links,
+.approved-Comments div table tbody td.action-links {
 	width: 130px;
 }
 
 .posts div table tbody td form,
 .categories div table tbody td form,
 .admins div table tbody td form,
-.comments div table tbody td form {
+.approved-Comments div table tbody td form,
+.unapproved-Comments div table tbody td form {
 	display: inline;
 }
 
@@ -252,7 +254,8 @@ h6 {
 .categories h4,
 .admin h4,
 .admins h4,
-.comments h4 {
+.approved-Comments h4,
+.unapproved-Comments {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
@@ -264,7 +267,7 @@ h6 {
 
 /* Comments Style */
 
-.comments div table tbody td.action-links {
+.unapproved-Comments div table tbody td.action-links {
 	margin-top: 220px;
 }
 

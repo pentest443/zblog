@@ -21,8 +21,7 @@ function get_categories($id = "") {
 			$result->execute();
 			return $result->fetch(PDO::FETCH_ASSOC);
 		}
-	}
-	catch(Exception $e) {
+	}catch(Exception $e) {
 		echo "Error: ".$e->getMessage();
 		return array();
 	}
@@ -247,7 +246,29 @@ function is_admin($email) {
 }
 
 
+
 /*Comment Function */
+
+function get_all_comments($approve = "") {
+	include "connect.php";
+	$sql = "";
+	if($approve === 1){
+		$sql = "SELECT * FROM comments WHERE approve = 1";
+	}else {
+		$sql = "SELECT * FROM comments WHERE approve = 0";
+	}
+	try {
+		$result = $con->prepare($sql);
+		$result->execute();
+		return $result->fetchAll(PDO::FETCH_ASSOC);
+	
+	}catch(Exception $e) {
+		echo "Error: ".$e->getMessage();
+		return array();	
+	}
+
+}
+
 function get_comments($id = "") {
 	include "connect.php";
 	$sql = "";
