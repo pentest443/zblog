@@ -243,8 +243,34 @@ function is_admin($email) {
 		echo "Error: ". $e->getMessage();
 		return false;
 	}
+
 }
 
+
+/*Comment Function */
+
+
+function insert_comment($datetime, $username, $email, $comment_comment, $post_id) {
+	$fields = array($datetime, $username, $email, $comment_comment); 
+	include "connect.php";
+	$sql = "INSERT INTO comments (datetime, commenter_name, commenter_email, comment, post_id)	VALUES (?,?,?,?,?) ";
+ 
+	try{
+		$result = $con->prepare($sql);
+		for($i = 1; $i <= 4; $i++){
+			$result->bindValue($i, $fields[$i - 1], PDO::PARAM_STR);
+		}
+		$result->bindValue(5, $post_id, PDO::PARAM_INT);
+		return $result->execute();
+	}catch(Exception $e) {
+		echo "Error: ". $e->getMessage();
+		return false;
+	}
+
+}
+
+
+/* update_reset_password_code */
 function update_reset_password_code($email) {
 
 	include "connect.php";
