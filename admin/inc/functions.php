@@ -248,7 +248,32 @@ function is_admin($email) {
 
 
 /*Comment Function */
+function get_comments($id = "") {
+	include "connect.php";
+	$sql = "";
+	if(empty($id)){
+		$sql = "SELECT * FROM comments ORDER BY datetime DESC";
+	}else {
+		$sql = "SELECT * FROM comments WHERE id = ? ";
+	}
 
+	try {
+		if(! empty($id)) {
+			$result = $con->prepare($sql);
+			$result->bindValue(1, $id, PDO::PARAM_INT);
+			$result->execute();
+
+			return $result->fetch(PDO::FETCH_ASSOC);
+		}else {
+			$result = $con->query($sql);
+			return $result;
+		}
+	}
+	catch(Exception $e) {
+		echo "Error: ".$e->getMessage();
+		return array();	
+	}
+}
 
 function insert_comment($datetime, $username, $email, $comment_comment, $post_id) {
 	$fields = array($datetime, $username, $email, $comment_comment); 

@@ -130,12 +130,6 @@ h6 {
 	margin-bottom: 20px;
 }
 
-
-
-
-
-
-
 /* Admin style */
 
 .admins table tbody td img {
@@ -230,32 +224,47 @@ h6 {
 	text-decoration: none;
 }
 
+/* Post Style */
+
+
+
+
+.posts div table tbody td.action-links,
+.categories div table tbody td.action-links, 
+.admins div table tbody td.action-links{
+	width: 130px;
+}
+
+.posts div table tbody td form,
+.categories div table tbody td form,
+.admins div table tbody td form,
+.comments div table tbody td form {
+	display: inline;
+}
+
+.posts div table tbody td.title {
+	min-width: 200px; 
+}
+
+.posts h4,
+.post h4,
+.categories h4,
+.admin h4,
+.admins h4,
+.comments h4 {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.post from input[name='updatepost'],
+.post from input[name='addpost'],
+.categories from input[name="addcategories"] {
+	margin-bottom: 20px;
+}
+
 /* Comments Style */
 
-.post-comments {
-	margin-top: 50px;
-}
-.post-comments .comment img.admin-image {
-	border-radius: 2px;
-	margin-top: 35px;
-}
-.post-comments .comment h6.username{
-	display: inline;
-	margin-left: 5px;
-}
-.post-comments .comment span.datetime {
-	color: grey;
-	font-size: 13px;
-	margin-left: 5px;
-}
-.post-comments .comment {
-	position: relative;
-}
-.post-comments .comment p.comment{
-	position: absolute;
-	top: 70px;
-	left: 80px;
-	color: #585858;
+.comments div table tbody td.action-links {
+	margin-top: 220px;
 }
 
 

@@ -1,3 +1,4 @@
+<?php $page_title = "Admins";?>
 <?php include "inc/header.php";  ?>
 <?php include "inc/navbar.php";  ?>
 <?php include "inc/functions.php";  ?>
