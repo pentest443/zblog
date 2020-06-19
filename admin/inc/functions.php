@@ -275,6 +275,22 @@ function get_comments($id = "") {
 	}
 }
 
+function update_comment($comment,$post_id, $id) {
+	include "connect.php";
+	$sql = "UPDATE comment SET username = ?, post_id = ? WHERE id = ?";
+	try {
+		$result = $con->prepare($sql);
+		$result->bindValue(1,$comment,PDO::PARAM_STR);
+		$result->bindValue(2,$post_id,PDO::PARAM_INT);
+		$result->bindValue(3,$id,PDO::PARAM_INT);
+		return $result->execute();
+	}catch(Exception $e) {
+		echo "Error: " .$e->getMessage();
+		return false;
+	}
+
+}
+
 function insert_comment($datetime, $username, $email, $comment_comment, $post_id) {
 	$fields = array($datetime, $username, $email, $comment_comment); 
 	include "connect.php";

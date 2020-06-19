@@ -19,8 +19,9 @@ body.login-style {
 }
 /* error style */
 .posts .alert,
-.categories .alert
-.admins .alert {
+.categories .alert,
+.admins .alert,
+.comments .alert {
 	margin-top: 10px;
 	display: inline-block;
 }
