@@ -328,9 +328,24 @@ function insert_comment($datetime, $username, $email, $comment_comment, $post_id
 		echo "Error: ". $e->getMessage();
 		return false;
 	}
-
 }
 
+function approve($id) {
+
+	include "connect.php";
+	$sql = "UPDATE comments SET approve = 1 WHERE id = ? ";
+
+	try{
+		
+		$result = $con->prepare($sql);
+		$result->bindValue(1, $id, PDO::PARAM_INT);
+		return $result->execute();
+	}
+	catch(Exception $e) {
+		echo "Error: " .$e->getMessage();
+		return false;
+	}
+}
 
 /* update_reset_password_code */
 function update_reset_password_code($email) {

@@ -17,11 +17,11 @@ body.login-style {
 .col-sm-2 {
 	padding-left: 0;
 }
-/* error style */
+/* Error Style */
 .posts .alert,
 .categories .alert,
 .admins .alert,
-.comments .alert {
+.approved-comments .alert {
 	margin-top: 10px;
 	display: inline-block;
 }
@@ -29,6 +29,7 @@ body.login-style {
 .alert-default {
 	color: #d50707;
 }
+
 h6 {
 	margin: 0;
 }
