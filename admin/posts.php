@@ -1,3 +1,4 @@
+<?php $page_title = "Posts";?>
 <?php include "inc/header.php";  ?>
 <?php include "inc/navbar.php";  ?>
 <?php include "inc/functions.php";  ?>
@@ -41,6 +42,7 @@
 			      <th scope="col">Title</th>
 			      <th scope="col">Content</th>
 			      <th scope="col">Image</th>
+			      <th scope="col">Comments</th>
 			      <th scope="col">Author</th>
 			      <th scope="col">Actions</th>
 			    </tr>
@@ -66,14 +68,15 @@
 				 </td>
 			     <td>
 			      	<?php 
-			      	if(strlen($post['content']) > 250) {
-			      		echo substr($post['content'], 0,250) .  '...';
+			      	if(strlen($post['content']) > 100) {
+			      		echo substr($post['content'], 0,100) .  '...';
 			      	}else {
 			      		echo $post['content'];
 			      	}
 			      	?>		
 
 				 </td>
+
 				  <td>
 					 <?php if(! empty($post['image'])) { ?>
 					 <img class="" alt="Post Banner" width="100" src="uploads/posts/<?php echo $post['image']; ?>">	
@@ -82,7 +85,17 @@
 					}
 					?>
 			     </td>
+			     <td>
+			     	<?php if(get_post_comments(1,$post['id'])) {
+			     		echo "<span calss='badge badge-success'>". get_post_comments(1,$post['id']) ."</span>";
 
+			     	} ?>
+			       	<?php if(get_post_comments(0,$post['id'])) {
+			     		echo "<span style='float: right;' calss='badge badge-warning'>". get_post_comments(0,$post['id']) ."</span>";
+			     		
+			     	} ?>
+
+			     </td>
 			     <td><?php echo $post['author']; ?></td>
 
 

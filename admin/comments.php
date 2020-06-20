@@ -94,7 +94,7 @@
 
 			  </tbody>
 			</table>
-			<a class="btn btn-info" style="float: right;" href="admin.php">Add New Comments</a>
+			<a class="btn btn-info" style="float: right;" href="comment.php">Add New Comments</a>
       	</div>	
  	  </div>
 

@@ -122,12 +122,15 @@ h6 {
 .post h4,
 .categories h4,
 .admin h4,
-.admins h4{
+.admins h4,
+.comment h4,
+.approved-Comments h4,
+.unapproved-Comments {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
-.post from input[name='updatepost'],
-.post from input[name='addpost'],
+.post form input[name='updatepost'],
+.post form input[name='addpost'],
 .categories from input[name="addcategories"] {
 	margin-bottom: 20px;
 }
@@ -260,8 +263,8 @@ h6 {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
-.post from input[name='updatepost'],
-.post from input[name='addpost'],
+.post form input[name='updatepost'],
+.post form input[name='addpost'],
 .categories from input[name="addcategories"] {
 	margin-bottom: 20px;
 }

@@ -336,7 +336,7 @@ function approve($id) {
 	$sql = "UPDATE comments SET approve = 1 WHERE id = ? ";
 
 	try{
-		
+
 		$result = $con->prepare($sql);
 		$result->bindValue(1, $id, PDO::PARAM_INT);
 		return $result->execute();
@@ -345,8 +345,24 @@ function approve($id) {
 		echo "Error: " .$e->getMessage();
 		return false;
 	}
+
 }
 
+function get_post_comments($approve, $id) {
+	include "connect.php";
+	$sql = "SELECT * FROM comments WHERE approve = $approve AND post_id = $id ";
+
+	try {
+		$result = $con->prepare($sql);
+		$result->execute();
+		return $result->rowCount();
+		
+	}catch(Exception $e) {
+		echo "Error: ". $e->getMessage();
+		return 0;
+	}
+
+}
 /* update_reset_password_code */
 function update_reset_password_code($email) {
 
