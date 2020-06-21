@@ -1,4 +1,4 @@
-<?php $page_title = "Posts";?>
+<?php $page_title = "Posts"; ?>
 <?php include "inc/header.php";  ?>
 <?php include "inc/navbar.php";  ?>
 <?php include "inc/functions.php";  ?>
@@ -6,15 +6,15 @@
 <?php include "inc/connect.php"?>
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-2">
-      <?php include "inc/sidebar.php"; ?>
-    </div>
-    <div class="col-sm">
+  	<div class="row">
+    	<div class="col-sm-2">
+      		<?php include "inc/sidebar.php"; ?>
+   		 </div>
+  		 <div class="col-sm">
       
-      <div class="posts">
+    		 <div class="posts">
 
-      	<?php 
+      			<?php 
 					if( ! session_id() ) {
 						session_start();
 					}
@@ -76,7 +76,6 @@
 			      	?>		
 
 				 </td>
-
 				  <td>
 					 <?php if(! empty($post['image'])) { ?>
 					 <img class="" alt="Post Banner" width="100" src="uploads/posts/<?php echo $post['image']; ?>">	
@@ -92,9 +91,7 @@
 			     	} ?>
 			       	<?php if(get_post_comments(0,$post['id'])) {
 			     		echo "<span style='float: right;' calss='badge badge-warning'>". get_post_comments(0,$post['id']) ."</span>";
-			     		
 			     	} ?>
-
 			     </td>
 			     <td><?php echo $post['author']; ?></td>
 

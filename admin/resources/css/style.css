@@ -281,3 +281,19 @@ div.reset-password-form {
 	width: 400px;
 	margin: 200px auto;
 }
+
+/* Settings Style */
+
+.settings h4 {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.settings form {
+	margin-left: 40px;
+}
+.settings form input[type='submit'] {
+	margin-top: 10px;
+	margin-bottom: 5px;
+	border-radius: 2px;
+}
+
