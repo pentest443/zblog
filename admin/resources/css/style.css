@@ -21,7 +21,8 @@ body.login-style {
 .posts .alert,
 .categories .alert,
 .admins .alert,
-.approved-comments .alert {
+.approved-comments .alert,
+.general-settings .alert {
 	margin-top: 10px;
 	display: inline-block;
 }
@@ -33,6 +34,15 @@ body.login-style {
 h6 {
 	margin: 0;
 }
+
+.sidebar .badge-info {
+	margin-top: 2px;
+}
+
+.tagline {
+	color: #E84C3D; 
+	margin-left: -20px;
+}
 /* Navbar Style */
 .navbar {
 	padding: 0;
@@ -43,9 +53,11 @@ h6 {
 .navbar-light .navbar-brand,
 .navbar-light .navbar-nav .nav-link {
 	color: #fff;
+	margin-left: 40px;
 }
- 
-
+ .logo {
+ 	border-radius: 50%;
+ }
  .nabvar-brand.dropdown-toggle::after {
  	content: none;
  }
@@ -61,7 +73,7 @@ h6 {
  	color: #fff;
  }
  .brand-drop-down {
- 	left: 135px;
+ 	left: 80px;
  }
 
  /* Admin Sidebar Style */
@@ -297,7 +309,4 @@ div.reset-password-form {
 	border-radius: 2px;
 }
 
-.settings form img.logo {
-	border-radius: 50%;
-}
-
+s
