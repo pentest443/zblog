@@ -297,3 +297,7 @@ div.reset-password-form {
 	border-radius: 2px;
 }
 
+.settings form img.logo {
+	border-radius: 50%;
+}
+
