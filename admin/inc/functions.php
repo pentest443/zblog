@@ -376,12 +376,58 @@ function get_settings() {
 	$sql = "SELECT * FROM settings";
 
 	try {
-			$result = $con->query($sql);
-			return $result;
+		$result = $con->query($sql);
+		return $result;
 	}
 	catch(Exception $e) {
 		echo "Error: ".$e->getMessage();
 		return array();	
+	}
+}
+
+function update_general_settings($name, $tagline, $image = "") {
+	include "connect.php";
+	$sql = "";
+	if(empty($image)){
+		$sql = "UPDATE settings SET name = ?, tagline = ? ";
+	}else {
+		$sql = "UPDATE settings SET name = ?, tagline = ?, logo = ? ";
+	}
+	try {
+		$result = $con->prepare($sql);
+		$result->bindValue(1, $name, PDO::PARAM_STR);
+		$result->bindValue(2, $tagline, PDO::PARAM_STR);
+
+		if(! empty($image)) {
+			$result->bindValue(3, $image, PDO::PARAM_STR);
+		}
+		return $result->execute();
+	}catch(Exception $e) {
+		echo "Error: " .$e->getMessage();
+		return false;
+	}
+}
+
+
+function update_posts_settings($hpn, $posts_order, $rpn, $relatedpn) {
+	include "connect.php";
+	$sql = "";
+	$sql = "UPDATE settings SET home_posts_number = ?, posts_order = ?, recent_posts_number = ?, related_posts_number =? ";
+	
+	try {
+		$result = $con->prepare($sql);
+		$result->bindValue(1, $hpn, PDO::PARAM_INT);
+		$result->bindValue(2, $posts_order, PDO::PARAM_STR);
+		$result->bindValue(3, $rpn, PDO::PARAM_INT);
+		$result->bindValue(4, $relatedpn, PDO::PARAM_INT);
+
+		if(! empty($image)) {
+			$result->bindValue(3, $image, PDO::PARAM_STR);
+		}
+		return $result->execute();
+	}catch(Exception $e) {
+		echo "Error: " .$e->getMessage();
+		return false;
 	}
 }
 
